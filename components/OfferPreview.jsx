@@ -3,7 +3,14 @@
 import { forwardRef } from 'react'
 
 const OfferPreview = forwardRef(function OfferPreview({ fields }, ref) {
-  const { candidateName, domain, date, startDate, duration, regId } = fields
+  const { candidateName, domain, startDate, duration, regId } = fields
+
+  // Auto-generate today's date as DD-MM-YYYY
+  const today = new Date()
+  const dd = String(today.getDate()).padStart(2, '0')
+  const mm = String(today.getMonth() + 1).padStart(2, '0')
+  const yyyy = today.getFullYear()
+  const currentDate = `${dd}-${mm}-${yyyy}`
 
   return (
     <div
@@ -28,22 +35,24 @@ const OfferPreview = forwardRef(function OfferPreview({ fields }, ref) {
         className="absolute inset-0 w-full h-full object-cover select-none pointer-events-none"
       />
 
-      {/* Date */}
+      {/* DATE */}
       <div
-        className="absolute text-black"
+        className="absolute"
         style={{
-          top: '292px',
-          right: '50px',
+          top: '300px',
+          left: '510px',
+          width: '227px',
           height: '30px',
-          display: 'flex',
-          alignItems: 'center',
-          fontSize: '23px',
-          lineHeight: '23px',
+          textAlign: 'right',
+          fontSize: '18px',
+          lineHeight: '30px',
           fontFamily: 'Arial, Helvetica, sans-serif',
+          color: '#000',
           whiteSpace: 'nowrap',
+          boxSizing: 'border-box',
         }}
       >
-        {date}
+        DATE: {currentDate}
       </div>
 
       {/* Salutation */}
@@ -65,9 +74,9 @@ const OfferPreview = forwardRef(function OfferPreview({ fields }, ref) {
       <div
         className="absolute text-black"
         style={{
-          top: '415px',
+          top: '430px',
           left: '50px',
-          width: '640px',
+          width: '690px',
           fontSize: '18px',
           lineHeight: '30px',
           textAlign: 'justify',
