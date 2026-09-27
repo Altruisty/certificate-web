@@ -11,7 +11,7 @@ const FIELD_GROUPS = [
   {
     group: 'Dates',
     fields: [
-      
+      { label: 'Letter Date', key: 'date', placeholder: 'DD-MM-YYYY' },
       { label: 'Internship Start Date', key: 'startDate', placeholder: 'DD-M-YY' },
       { label: 'Duration', key: 'duration', placeholder: 'e.g. 1 month' },
     ],

@@ -25,8 +25,9 @@ const DEFAULT_COMPLETION_FIELDS = {
   domain: 'Data Analytics',
   startDate: '4-5-2026',
   endDate: '4-6-2026',
+  date: '02-5-2026',
   duration: '1 month',
-  regno: '5936',
+  regno: '1252025936',
 }
 
 const BASE_WIDTH = 794

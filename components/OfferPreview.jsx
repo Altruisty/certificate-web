@@ -3,7 +3,7 @@
 import { forwardRef } from 'react'
 
 const OfferPreview = forwardRef(function OfferPreview({ fields }, ref) {
-  const { candidateName, domain, startDate, duration, regId } = fields
+  const { candidateName, domain, startDate, duration, date, regId } = fields
 
   // Auto-generate today's date as DD-MM-YYYY
   const today = new Date()
@@ -52,7 +52,7 @@ const OfferPreview = forwardRef(function OfferPreview({ fields }, ref) {
           boxSizing: 'border-box',
         }}
       >
-        DATE: {currentDate}
+        DATE: {date}
       </div>
 
       {/* Salutation */}

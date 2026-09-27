@@ -3,7 +3,7 @@
 import { forwardRef } from 'react'
 
 const CompletionPreview = forwardRef(function CompletionPreview({ fields }, ref) {
-  const { candidateName, domain, startDate, endDate, duration, regno } = fields
+  const { candidateName, domain, startDate, endDate, date, duration, regno } = fields
 
   // Format today's date as DD-MM-YY (matches Python strftime "%d-%m-%y")
   const today = new Date()
@@ -62,7 +62,7 @@ const CompletionPreview = forwardRef(function CompletionPreview({ fields }, ref)
           whiteSpace: 'nowrap',
         }}
       >
-        DATE: {currentDate}
+        DATE: {date}
       </div>
 
       {/* BODY TEXT */}

@@ -11,6 +11,7 @@ const FIELD_GROUPS = [
   {
     group: 'Internship Period',
     fields: [
+      { label: 'Issue Date', key: 'date', placeholder: 'DD-MM-YY' },
       { label: 'Start Date', key: 'startDate', placeholder: 'DD-M-YY' },
       { label: 'End Date', key: 'endDate', placeholder: 'DD-M-YY' },
       { label: 'Duration', key: 'duration', placeholder: 'e.g. 1 month' },
