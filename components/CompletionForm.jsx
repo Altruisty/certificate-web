@@ -9,22 +9,22 @@ const FIELD_GROUPS = [
     ],
   },
   {
-    group: 'Dates',
+    group: 'Internship Period',
     fields: [
-      { label: 'Letter Date', key: 'date', placeholder: 'DD-M-YY' },
-      { label: 'Internship Start Date', key: 'startDate', placeholder: 'DD-M-YY' },
+      { label: 'Start Date', key: 'startDate', placeholder: 'DD-M-YY' },
+      { label: 'End Date', key: 'endDate', placeholder: 'DD-M-YY' },
       { label: 'Duration', key: 'duration', placeholder: 'e.g. 1 month' },
     ],
   },
   {
-    group: 'HR & Registration',
+    group: 'Registration',
     fields: [
-      { label: 'Registration ID', key: 'regId', placeholder: 'e.g. 1252025936' },
+      { label: 'Registration ID', key: 'regno', placeholder: 'e.g. 1252025936' },
     ],
   },
 ]
 
-export default function OfferForm({ fields, onChange }) {
+export default function CompletionForm({ fields, onChange }) {
   return (
     <div className="flex-1 overflow-hidden flex flex-col">
       <div className="flex-1 overflow-y-auto pr-1 flex flex-col gap-7">
@@ -44,7 +44,7 @@ export default function OfferForm({ fields, onChange }) {
                 <input
                   id={key}
                   type="text"
-                  value={fields[key]}
+                  value={fields[key] || ''}
                   onChange={(e) => onChange(key, e.target.value)}
                   placeholder={placeholder}
                   spellCheck={false}
@@ -73,7 +73,7 @@ export default function OfferForm({ fields, onChange }) {
                 strokeLinecap="round"
               />
             </svg>
-            All edits appear live in the preview panel
+            Live edits reflect instantly in the preview
           </p>
         </div>
       </div>

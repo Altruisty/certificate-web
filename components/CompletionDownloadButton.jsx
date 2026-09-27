@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import toast from 'react-hot-toast'
 
-export default function DownloadButton({ candidateName = 'Candidate' }) {
+export default function CompletionDownloadButton({ candidateName = 'Candidate' }) {
   const [showModal, setShowModal] = useState(false)
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
@@ -39,20 +39,23 @@ export default function DownloadButton({ candidateName = 'Candidate' }) {
       return
     }
 
-    const element = document.getElementById('offer-letter-preview')
+    const element = document.getElementById('completion-certificate-preview')
     if (!element) {
       toast.error('Preview not found')
       return
     }
 
     const scaler = element.closest('[data-preview-scaler]')
-    const prevZoom = scaler?.style.zoom
+    const prevTransform = scaler?.style.transform
+    const prevOrigin = scaler?.style.transformOrigin
 
     try {
       setLoading(true)
 
+      // Temporarily remove scale so html2canvas captures at true 794×1123
       if (scaler) {
-        scaler.style.zoom = '1'
+        scaler.style.transform = 'none'
+        scaler.style.transformOrigin = 'top left'
         void element.offsetHeight
       }
 
@@ -60,7 +63,7 @@ export default function DownloadButton({ candidateName = 'Candidate' }) {
 
       const opt = {
         margin: 0,
-        filename: 'Offer_Letter.pdf',
+        filename: 'Completion_Certificate.pdf',
         image: { type: 'jpeg', quality: 1 },
         html2canvas: {
           scale: 3,
@@ -79,10 +82,10 @@ export default function DownloadButton({ candidateName = 'Candidate' }) {
       const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob')
 
       const formData = new FormData()
-      formData.append('pdf', pdfBlob, 'Offer-Letter.pdf')
+      formData.append('pdf', pdfBlob, 'Completion-Certificate.pdf')
       formData.append('candidateEmail', email)
       formData.append('candidateName', candidateName)
-      formData.append('documentType', 'offer')
+      formData.append('documentType', 'completion')
 
       const response = await fetch('/api/send-email', {
         method: 'POST',
@@ -96,16 +99,17 @@ export default function DownloadButton({ candidateName = 'Candidate' }) {
         return
       }
 
+      // Download only after successful email
       const url = URL.createObjectURL(pdfBlob)
       const a = document.createElement('a')
       a.href = url
-      a.download = 'Offer_Letter.pdf'
+      a.download = 'Completion_Certificate.pdf'
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
 
-      toast.success('Offer letter emailed successfully!')
+      toast.success('Completion certificate emailed successfully!')
       setShowModal(false)
       setEmail('')
     } catch (err) {
@@ -113,7 +117,8 @@ export default function DownloadButton({ candidateName = 'Candidate' }) {
       toast.error('Something went wrong')
     } finally {
       if (scaler) {
-        scaler.style.zoom = prevZoom || ''
+        scaler.style.transform = prevTransform || ''
+        scaler.style.transformOrigin = prevOrigin || ''
       }
       setLoading(false)
     }
@@ -132,7 +137,7 @@ export default function DownloadButton({ candidateName = 'Candidate' }) {
       >
         <div className="flex flex-col gap-1">
           <h3 className="text-lg font-semibold tracking-tight text-text-primary m-0">
-            Send Offer Letter
+            Send Completion Certificate
           </h3>
           <p className="text-xs text-text-muted m-0">
             Enter the candidate&apos;s email to deliver the PDF
@@ -141,13 +146,13 @@ export default function DownloadButton({ candidateName = 'Candidate' }) {
 
         <div className="flex flex-col gap-2">
           <label
-            htmlFor="candidate-email"
+            htmlFor="completion-email"
             className="text-[11px] font-bold uppercase tracking-[0.14em] text-text-secondary"
           >
             Candidate Email
           </label>
           <input
-            id="candidate-email"
+            id="completion-email"
             type="email"
             placeholder="candidate@example.com"
             value={email}
